@@ -30,6 +30,25 @@ variable "cluster_name" {
   type        = string
 }
 
+variable "controller_startup_script" {
+  description = "Custom startup script to run on the controller"
+  type        = string
+  default     = null
+}
+
+variable "compute_startup_script" {
+  description = "Custom startup script to run on the compute nodes"
+  type        = string
+  default     = null
+}
+
+variable "login_startup_script" {
+  description = "Custom startup script to run on the login nodes"
+  type        = string
+  default     = null
+}
+
+
 variable "compute_node_scopes" {
   description = "Scopes to apply to compute nodes."
   type        = list(string)
@@ -238,7 +257,7 @@ variable "partitions" {
       local_mount  = string,
       fs_type      = string,
     mount_options = string })),
-    preemptible_bursting = bool,
+    preemptible_bursting = string,
     vpc_subnet           = string,
     exclusive            = bool,
     enable_placement     = bool,
@@ -266,6 +285,11 @@ variable "subnetwork_name" {
 variable "suspend_time" {
   description = "Idle time (in sec) to wait before nodes go away"
   default     = 300
+}
+
+variable "complete_wait_time" {
+  description = "Time (in sec) to wait before considering a completing job as completed. Warning: high values will reduce schduling throughput. Suggested to keep between 0 and 'suspend_timeout'."
+  default     = 60
 }
 
 variable "zone" {
@@ -299,6 +323,6 @@ output "login_network_ips" {
 }
 
 output "config" {
-  value = module.slurm_cluster_controller.config
+  value     = module.slurm_cluster_controller.config
   sensitive = true
 }

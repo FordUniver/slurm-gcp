@@ -244,6 +244,7 @@ def install_slurm_conf():
         'resume_timeout': RESUME_TIMEOUT,
         'suspend_timeout': SUSPEND_TIMEOUT,
         'suspend_time': cfg.suspend_time,
+        'complete_wait_time': cfg.complete_wait_time,
         'mpi_default': mpi_default,
     }
     conf_resp = util.get_metadata('attributes/slurm_conf_tpl')
@@ -292,7 +293,7 @@ def install_slurm_conf():
         def_mem_per_cpu = max(100, machine['memory'] // machine['cpus'])
 
         conf += ("PartitionName={} Nodes={} MaxTime=INFINITE "
-                 "State=UP DefMemPerCPU={} LLN=yes"
+                 "State=UP DefMemPerCPU={} LLN=no"
                  .format(part.name, part_nodes,
                          def_mem_per_cpu))
         if part.exclusive:

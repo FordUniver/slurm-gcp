@@ -238,7 +238,7 @@ variable "partitions" {
       local_mount  = string,
       fs_type      = string,
     mount_options = string })),
-    preemptible_bursting = bool,
+    preemptible_bursting = string,
     vpc_subnet           = string,
     exclusive            = bool,
     enable_placement     = bool,
@@ -266,6 +266,11 @@ variable "subnetwork_name" {
 variable "suspend_time" {
   description = "Idle time (in sec) to wait before nodes go away"
   default     = 300
+}
+
+variable "complete_wait_time" {
+  description = "Time (in sec) to wait before considering a completing job as completed. Warning: high values will reduce schduling throughput. Suggested to keep between 0 and 'suspend_timeout'."
+  default     = 60
 }
 
 variable "zone" {

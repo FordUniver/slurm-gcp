@@ -156,7 +156,7 @@ variable "partitions" {
       local_mount  = string,
       fs_type      = string,
     mount_options = string })),
-    preemptible_bursting = bool,
+    preemptible_bursting = string,
     vpc_subnet           = string,
     exclusive            = bool,
     enable_placement     = bool,
@@ -164,6 +164,18 @@ variable "partitions" {
     regional_policy      = any,
     instance_template    = string,
   static_node_count = number }))
+}
+
+variable "controller_startup_script" {
+  description = "Custom startup script to run on the controller"
+  type        = string
+  default     = null
+}
+
+variable "compute_startup_script" {
+  description = "Custom startup script to run on the compute nodes"
+  type        = string
+  default     = null
 }
 
 variable "project" {
@@ -210,6 +222,11 @@ variable "suspend_time" {
   default     = 300
 }
 
+variable "complete_wait_time" {
+  description = "Time (in sec) to wait before considering a completing job as completed. Warning: high values will reduce schduling throughput. Suggested to keep between 0 and 'suspend_timeout'."
+  default     = 60
+}
+
 variable "zone" {
   description = "Compute Platform zone where the notebook server will be located"
   default     = "us-central1-b"
@@ -230,6 +247,6 @@ output "instance_network_ips" {
 }
 
 output "config" {
-  value = local.config
+  value     = local.config
   sensitive = true
 }

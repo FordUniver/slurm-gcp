@@ -77,7 +77,7 @@ variable "partitions" {
       local_mount  = string,
       fs_type      = string,
     mount_options = string })),
-    preemptible_bursting = bool,
+    preemptible_bursting = string,
     vpc_subnet           = string,
     exclusive            = bool,
     enable_placement     = bool,
@@ -86,6 +86,13 @@ variable "partitions" {
     instance_template    = string,
   static_node_count = number }))
 }
+
+variable "compute_startup_script" {
+  description = "Custom startup script to run on the compute nodes"
+  type        = string
+  default     = null
+}
+
 
 variable "project" {
   description = "Cloud Platform project that hosts the notebook server(s)"
