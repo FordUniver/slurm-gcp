@@ -238,6 +238,12 @@ class Config(NSDict):
                 f'{cfg.cluster_name}-compute-{pid}': part
                 for pid, part in enumerate(cfg.partitions)
             })
+            
+        # check for a2-highgpu machines and update gpu_count
+        for pid in cfg.instance_defs.keys():
+            if instance_defs.pid.machine_type.startswith('a2-highgpu'):
+                instance_defs.pid.gpu_count = int(instance_defs.pid.machine_type.split('-')[2].replace('g',''))
+                instance_defs.pid.gpu_type = 'nvidia-tesla-a100'
 
         for netstore in (*cfg.network_storage, *(cfg.login_network_storage or []),
                          *chain(*(p.network_storage for p in (cfg.partitions or [])))):
